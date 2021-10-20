@@ -9,7 +9,6 @@
     fail_msg: OS must be Amazon Linux 2.
 
 - name: Update repo
-  package:
-    name: '*'
+  apk:
     state: latest
     update_cache: true
