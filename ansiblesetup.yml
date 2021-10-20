@@ -5,6 +5,10 @@
     troubleshoot: false
   tasks:       
 
+    - name: Get OS
+        debug:
+          var: ansible_distribution
+
     - name: Ensure OS is compatible
       assert:
         that:
