@@ -10,5 +10,6 @@
 
 - name: Update repo
   apk:
+    name: openjdk11-jre-headless
     state: latest
     update_cache: true
