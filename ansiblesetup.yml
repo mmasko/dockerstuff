@@ -13,7 +13,7 @@
         fail_msg: OS must be Amazon Linux 2.
 
     - name: Update repo
-      package:
+      yum:
         name: '*'
         state: latest
         update_cache: true
