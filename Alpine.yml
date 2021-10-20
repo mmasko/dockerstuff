@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  gather_facts: true
+  vars:
+    troubleshoot: false
+  tasks:       
+
+    - name: Get OS
+      debug:
+        var: ansible_distribution
+    
+    - name: Ensure OS is compatible
+      assert:
+        that:
+          ansible_distribution == "Alpine"
+        fail_msg: OS must be Amazon Linux 2.
+    
+    - name: Update repo
+      package:
+        name: '*'
+        state: latest
+        update_cache: true
