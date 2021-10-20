@@ -28,7 +28,7 @@
 
     - name: Install developer packages (azure, git, python)
       package:
-        name: zip, unzip, python3-pip, polkit, azure-cli
+        name: zip, unzip, python3-pip, polkit
         state: latest
       vars:
         ansible_python_interpreter: /usr/bin/python
