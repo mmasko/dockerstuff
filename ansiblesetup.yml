@@ -16,7 +16,6 @@
         name: '*'
         state: latest
         update_cache: true
-      become: true
 
     - name: Add Azure-cli to yum repository
       yum_repository:
@@ -26,17 +25,11 @@
         gpgkey: https://packages.microsoft.com/keys/microsoft.asc
         gpgcheck: yes
         enabled: yes
-      become: true
-
-    - name: Enable Docker yum repo for Amazon Linux 2
-      command: amazon-linux-extras enable docker
-      become: true
 
     - name: Install developer packages (azure, git, python)
       package:
-        name: zip, unzip, python-pip, polkit, azure-cli, git, docker
+        name: python3-pip
         state: latest
-      become: true
 
     - name: Install developer packages (boto)
       pip:
@@ -51,8 +44,6 @@
         - pyvmomi # VMWare SDK
         state: latest
         extra_args: --user
-      become: true
-      become_user: ec2-user
 
     - name: Get latest version of terraform
       shell: curl https://www.terraform.io/downloads.html | grep -A1 'linux' | sed -n 's/.*href="\(.*\)".*/\1/p'
@@ -65,17 +56,3 @@
         src: "{{ terraform.stdout_lines[1] }}"
         dest: /usr/local/bin/
         remote_src: yes
-      become: true
-
-    - name: Ensure Docker group exists
-      group:
-        name: docker
-        state: present
-      become: true
-    
-    - name: Add ec2-user to docker group
-      user:
-        name: ec2-user
-        groups: docker
-        append: yes
-      become: true
