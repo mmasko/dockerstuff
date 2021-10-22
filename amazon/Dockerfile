@@ -12,6 +12,6 @@ RUN git clone https://github.com/mmasko/dockerstuff.git && \
 ansible-playbook dockerstuff/ansiblesetup.yml -v
 RUN rm /dockerstuff -R && \
 git clone https://github.com/mmasko/dockerstuff.git && \
-echo "hello worlds"
+echo "hello"
 ENTRYPOINT ["/bin/bash", "/dockerstuff/entrypoint.sh"]
 # CMD ["echo", "Hello from CMD"]
