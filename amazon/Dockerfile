@@ -9,7 +9,9 @@ yum clean metadata
 RUN useradd ansible && \
 ssh-keygen -A
 RUN git clone https://github.com/mmasko/dockerstuff.git && \
-ansible-playbook dockerstuff/ansiblesetup.yml -vv
-
+ansible-playbook dockerstuff/ansiblesetup.yml -v
+RUN rm /dockerstuff -R && \
+git clone https://github.com/mmasko/dockerstuff.git && \
+echo "hello world"
 ENTRYPOINT ["/bin/bash", "/dockerstuff/entrypoint.sh"]
 # CMD ["echo", "Hello from CMD"]

@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "hello world"
+ansible-playbook fromjenkinsplaybook.yml --extra-vars docker="docker"
