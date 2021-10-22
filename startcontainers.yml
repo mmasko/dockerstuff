@@ -29,13 +29,18 @@
     #   become: true
     #   tags: docker_service
 
-    # - name: Install depenencies
+    # - name: Install package depd
+    #   yum:
+    #     name:
+    #       - python3-pip
+    #   become: true
+
+    # - name: Install pip depenencies
     #   pip:
     #     name:
     #       - docker
     #     state: latest
     #     extra_args: --user
-    #   become: true
 
     - name: Create a network
       docker_network:
@@ -62,16 +67,16 @@
 
     - name: ansible container
       docker_container:
-        name: amazon-ansible
-        image: amazon-ansible:latest
-        volumes:
-          - /home/ec2-user/jenkins/:/hostpipe
+        name: amalin-ansible
+        image: amalin-ansible:latest
+        #volumes:
+        #  - /home/ec2-user/jenkins/:/hostpipe
         state: started
         restart_policy: unless-stopped
         networks:
           - name: "{{ jenkins_network }}"
         ports:
           - 0.0.0.0:7655:22
-          #- jenkins:7655:22
+        #   - jenkins:7655:22
         command: sleep infinity
       tags: ansible_container

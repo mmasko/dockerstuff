@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: false
+  
+  tasks:
+
+    - name: Jenkins runs me
+      debug:
+        msg: "hi"
+      # failed_when: bob is not defined
+
+    - name: create a file
+      copy:
+        content: 'Jenkins made me'
+        dest: /home/ec2-user/jenkins.txt
