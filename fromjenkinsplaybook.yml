@@ -4,11 +4,6 @@
   
   tasks:
 
-    - name: Jenkins runs me
+    - name: "{{ trigger }}" runs me
       debug:
-        msg: "Hello world"
-
-    - name: create a file
-      copy:
-        content: 'Jenkins made me'
-        dest: /home/ec2-user/jenkins.txt
+        msg: "{{ trigger }} runs me"
