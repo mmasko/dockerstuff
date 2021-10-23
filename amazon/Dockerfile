@@ -11,7 +11,6 @@ ssh-keygen -A
 RUN git clone https://github.com/mmasko/dockerstuff.git && \
 ansible-playbook dockerstuff/ansiblesetup.yml -v
 RUN rm /dockerstuff -R && \
-git clone https://github.com/mmasko/dockerstuff.git && \
-echo "hello"
+git clone https://github.com/mmasko/dockerstuff.git
 ENTRYPOINT ["/bin/bash", "/dockerstuff/entrypoint.sh"]
 # CMD ["echo", "Hello from CMD"]
