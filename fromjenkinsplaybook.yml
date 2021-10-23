@@ -4,6 +4,6 @@
   
   tasks:
 
-    - name: "{{ trigger }}" runs me
+    - name: Ran by {{ trigger }}
       debug:
         msg: "{{ trigger }} runs me"
