@@ -79,4 +79,5 @@
           - 0.0.0.0:7655:22
         #   - jenkins:7655:22
         command: sleep infinity
+        # CMD ["/usr/sbin/sshd", "-D"]
       tags: ansible_container

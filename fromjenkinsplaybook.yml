@@ -6,15 +6,9 @@
 
     - name: Jenkins runs me
       debug:
-        msg: "Hello from Jenkins"
-      # failed_when: bob is not defined
-
-    - name: Docker runs me
-      debug:
-        msg: "hello from docker"
+        msg: "Hello world"
 
     - name: create a file
       copy:
         content: 'Jenkins made me'
         dest: /home/ec2-user/jenkins.txt
-      when: jenkins is defined
