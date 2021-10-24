@@ -4,6 +4,7 @@
   vars:
     jenkins_network: jenkins_network
     ansible_python_interpreter: /usr/bin/python3
+    
   
   tasks:
 
@@ -42,21 +43,44 @@
     #     state: latest
     #     extra_args: --user
 
+    - name: Create {{ app }} user
+      user:
+        name: "jenkins"
+        state: present
+        remove: no
+      become: yes
+      tags: jenkins_dir
+      
+    - name: create Jenkins_home directory
+      file: 
+        path: /opt/jenkins_home
+        owner: ec2-user
+        group: ec2-user
+        state: directory
+      become: true
+      tags: jenkins_dir
+
+    - name: create Jenkins_home directory
+      file: 
+        path: /home/ec2-user/jenkins
+        owner: ec2-user
+        group: ec2-user
+        state: directory
+      become: true
+      tags: home_dir
+
     - name: Create a network
       docker_network:
         name: "{{ jenkins_network }}"
-
-    - name: Create jenkins volume
-      docker_volume:
-        name: jenkins_home
 
     - name: Start Jenkins
       docker_container:
         name: jenkins
         image: jenkins/jenkins
         volumes:
-          - /home/ec2-user/jenkins/jenkins_home/:/var/jenkins_home/" # must chown -R 1000:1000 the local directory
-          - /home/ec2-user/jenkins/:/hostpipe
+          - "/opt/jenkins_home:/var/jenkins_home" # must chown -R 1000:1000 the local directory
+          - "/home/ec2-user/jenkins/:/hostpipe"
+          - "/var/run/docker.sock:/var/run/docker.sock"
         ports:
           - 0.0.0.0:80:8080
           - 50000:50000
@@ -66,18 +90,17 @@
       tags: start_jenkins
 
     - name: ansible container
-      docker_container:
-        name: amalin-ansible
-        image: amalin-ansible:latest
-        #volumes:
-        #  - /home/ec2-user/jenkins/:/hostpipe
+      community.docker.docker_container:
+        name: philinthropic-panda
+        image: ansible-alpine:latest
+        volumes:
+          - /home/ec2-user/dockervolume/privkey.pem:/privkey.pem
         state: started
-        restart_policy: unless-stopped
+        #restart_policy: unless-stopped
         networks:
           - name: "{{ jenkins_network }}"
         ports:
           - 0.0.0.0:7655:22
-        #   - jenkins:7655:22
         command: sleep infinity
-        # CMD ["/usr/sbin/sshd", "-D"]
+      register: ansible_container
       tags: ansible_container
