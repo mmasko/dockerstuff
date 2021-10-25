@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /usr/bin/python3.8
+
+  tasks:
+    - yum:
+       name: python2
+       state: removed

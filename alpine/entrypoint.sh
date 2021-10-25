@@ -1,2 +1,3 @@
 #!/bin/bash
-git clone https://github.com/mmasko/dockerstuff.git
+ansible -m debug -a var=ansible_host localhost
+ansible-playbook playbook.yml
