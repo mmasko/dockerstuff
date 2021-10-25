@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  gather_facts: false
+  
+  tasks:
+
+    - name: Hi
+      debug: 
+        msg: "hi from alpine playbook"

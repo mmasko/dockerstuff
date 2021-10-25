@@ -1,0 +1,15 @@
+pipeline {
+    agent { label 'host' }
+
+    stages {
+        stage('Hello') {
+            steps {
+                dir('/home/ec2-user/dockerstuff/alpine/') {
+                sh 'docker build -t ansible-alpine .'
+                }
+                git credentialsId: 'github', url: 'git@github.com:mmasko/codecentral.git'
+                withDockerContainer(args: '', image: 'ansible-alpine') {}
+            }
+        }
+    }
+}
