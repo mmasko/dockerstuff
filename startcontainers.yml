@@ -62,10 +62,11 @@
 
     - name: create Jenkins_home directory
       file: 
-        path: /home/ec2-user/jenkins
+        path: /home/ec2-user/
         owner: ec2-user
         group: ec2-user
         state: directory
+        recurse: true
       become: true
       tags: home_dir
 
@@ -95,6 +96,7 @@
         image: ansible-alpine:latest
         volumes:
           - /home/ec2-user/dockervolume/privkey.pem:/privkey.pem
+          - /home/ec2-user/dockervolume/python_packages:/usr/local/lib/python3.9/site-packages
         state: started
         #restart_policy: unless-stopped
         networks:
@@ -103,4 +105,4 @@
           - 0.0.0.0:7655:22
         command: sleep infinity
       register: ansible_container
-      tags: ansible_container
+      tags: start_ansible

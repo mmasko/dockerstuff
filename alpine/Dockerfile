@@ -35,5 +35,3 @@ RUN apk add --update util-linux
 RUN echo "Removing .build-deps" \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/*
-
-ADD playbook.yml /home/ansible/playbook.yml
