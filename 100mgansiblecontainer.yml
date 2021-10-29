@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    jenkins_network: jenkins_network
+    ansible_python_interpreter: /usr/bin/python3
+    
+  
+  tasks:
+
+    - name: create Python lib directory
+      file:
+        path: /opt/pip_packages
+        owner: ec2-user
+        group: ec2-user
+        state: directory
+      become: true
+      tags: pip_packages
+
+    - name: Build Python build image
+      docker_image:
+        name: philinthropic-panda:0.25
+        build:
+          path: /home/ec2-user/dockerstuff/python-alpine/
+          rm: yes
+          nocache: yes
+        state: present
+      tags: build_image
+
+    - name: ansible container
+      docker_container:
+        name: philinthropic-panda
+        image: philinthropic-panda:0.25
+        user: ec2-user
+        volumes:
+          - /home/ec2-user/dockervolume/privkey.pem:/privkey.pem
+          - /opt/pip_packages:/usr/local/lib/python3.9/site-packages
+        state: started
+        network_mode: host
+        command: sleep infinity
+      register: ansible_container
+      tags: start_ansible
