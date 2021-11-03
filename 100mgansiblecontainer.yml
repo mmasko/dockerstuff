@@ -4,16 +4,16 @@
   vars:
     jenkins_network: jenkins_network
     ansible_python_interpreter: /usr/bin/python3
-    
-  
+
   tasks:
 
     - name: create Python lib directory
       file:
-        path: /opt/pip_packages
+        path: /opt/actions-runner
         owner: ec2-user
         group: ec2-user
         state: directory
+        recurse: true
       become: true
       tags: pip_packages
 

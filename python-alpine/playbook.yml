@@ -8,17 +8,6 @@
       debug: 
         msg: "hi from alpine python playbook"
 
-    - ec2:
-        aws_access_key: 
-        aws_secret_key: 
-        security_token: 
-        region: us-west-2
-        instance_type: t2.micro
-        image: ami-013a129d325529d4d
-        wait: no
-        #group:
-        count: 1
-        vpc_subnet_id: subnet-e74767bd
-        instance_tags:
-          name
-        assign_public_ip: no
+    - name: Sleep for 30 seconds and continue with play
+      wait_for:
+        timeout: 30

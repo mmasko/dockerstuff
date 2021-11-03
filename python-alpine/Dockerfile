@@ -48,7 +48,7 @@ USER ansible
 
 # COPY --from=builder /home/ansible/.local/bin /home/ansible/.local/bin
 # # COPY --from=builder /home/ansible/.local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
-# ADD playbook.yml /home/ansible/playbook.yml
+ADD playbook.yml /home/ansible/playbook.yml
 # ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ansible/.local/bin:/home/ansible/.local/:/usr/local/lib/python3.9/site-packages"
 # # WORKDIR /home/ansible
-# CMD ansible-playbook /home/ansible/playbook.yml -vvvv
+CMD ansible-playbook /home/ansible/playbook.yml -vvvv
