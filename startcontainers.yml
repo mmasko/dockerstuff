@@ -43,66 +43,64 @@
     #     state: latest
     #     extra_args: --user
 
-    - name: Create {{ app }} user
-      user:
-        name: "jenkins"
-        state: present
-        remove: no
-      become: yes
-      tags: jenkins_dir
+    # - name: Create {{ app }} user
+    #   user:
+    #     name: "jenkins"
+    #     state: present
+    #     remove: no
+    #   become: yes
+    #   tags: jenkins_dir
       
-    - name: create Jenkins_home directory
-      file: 
-        path: /opt/jenkins_home
-        owner: ec2-user
-        group: ec2-user
-        state: directory
-      become: true
-      tags: jenkins_dir
+    # - name: create Jenkins_home directory
+    #   file: 
+    #     path: /opt/jenkins_home
+    #     owner: ec2-user
+    #     group: ec2-user
+    #     state: directory
+    #   become: true
+    #   tags: jenkins_dir
 
-    - name: create Jenkins_home directory
-      file: 
-        path: /home/ec2-user/
-        owner: ec2-user
-        group: ec2-user
-        state: directory
-        recurse: true
-      become: true
-      tags: home_dir
+    # - name: create Jenkins_home directory
+    #   file: 
+    #     path: /home/ec2-user/
+    #     owner: ec2-user
+    #     group: ec2-user
+    #     state: directory
+    #     recurse: true
+    #   become: true
+    #   tags: home_dir
 
-    - name: Create a network
-      docker_network:
-        name: "{{ jenkins_network }}"
+    # - name: Create a network
+    #   docker_network:
+    #     name: "{{ jenkins_network }}"
 
-    - name: Start Jenkins
-      docker_container:
-        name: jenkins
-        image: jenkins/jenkins
-        volumes:
-          - "/opt/jenkins_home:/var/jenkins_home" # must chown -R 1000:1000 the local directory
-          - "/home/ec2-user/jenkins/:/hostpipe"
-          - "/var/run/docker.sock:/var/run/docker.sock"
-        ports:
-          - 0.0.0.0:80:8080
-          - 50000:50000
-        restart_policy: unless-stopped
-        networks:
-          - name: "{{ jenkins_network }}"
-      tags: start_jenkins
+    # - name: Start Jenkins
+    #   docker_container:
+    #     name: jenkins
+    #     image: jenkins/jenkins
+    #     volumes:
+    #       - "/opt/jenkins_home:/var/jenkins_home" # must chown -R 1000:1000 the local directory
+    #       - "/home/ec2-user/jenkins/:/hostpipe"
+    #       - "/var/run/docker.sock:/var/run/docker.sock"
+    #     ports:
+    #       - 0.0.0.0:80:8080
+    #       - 50000:50000
+    #     restart_policy: unless-stopped
+    #     networks:
+    #       - name: "{{ jenkins_network }}"
+    #   tags: start_jenkins
 
     - name: ansible container
       community.docker.docker_container:
-        name: philinthropic-panda
-        image: ansible-alpine:latest
+        name: docker_deployer
+        image: alpine:latest
         volumes:
-          - /home/ec2-user/dockervolume/privkey.pem:/privkey.pem
           - /home/ec2-user/dockervolume/python_packages:/usr/local/lib/python3.9/site-packages
+          - /var/run/docker.sock:/var/run/docker.sock
         state: started
         #restart_policy: unless-stopped
         networks:
           - name: "{{ jenkins_network }}"
-        ports:
-          - 0.0.0.0:7655:22
         command: sleep infinity
       register: ansible_container
       tags: start_ansible

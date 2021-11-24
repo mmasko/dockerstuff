@@ -1,6 +1,6 @@
 FROM alpine:latest
-ENV ANSIBLE_VERSION=2.9.4
-ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ansible/.local/bin"
+ENV ANSIBLE_VERSION=2.9.7
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ansible/.local/bin:/home/.local/lib/python3.9/site-packages"
 
 RUN apk add --update --no-cache --virtual .fetch-deps \
         tar \
@@ -35,3 +35,4 @@ RUN apk add --update util-linux
 RUN echo "Removing .build-deps" \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/*
+USER ansible

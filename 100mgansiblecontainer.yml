@@ -9,7 +9,17 @@
 
     - name: create Python lib directory
       file:
-        path: /opt/actions-runner
+        path: /home/ec2-user/dockervolume/python_bin/
+        owner: ec2-user
+        group: ec2-user
+        state: directory
+        recurse: true
+      become: true
+      tags: pip_packages
+
+    - name: create Python lib directory
+      file:
+        path: /home/ec2-user/example_repo/
         owner: ec2-user
         group: ec2-user
         state: directory
