@@ -93,14 +93,14 @@
     - name: ansible container
       community.docker.docker_container:
         name: docker_deployer
-        image: alpine:latest
+        image: ansible_runner:latest
         volumes:
-          - /home/ec2-user/dockervolume/python_packages:/usr/local/lib/python3.9/site-packages
+          # - /home/ec2-user/dockervolume/python_packages:/usr/local/lib/python3.9/site-packages
           - /var/run/docker.sock:/var/run/docker.sock
         state: started
         #restart_policy: unless-stopped
-        networks:
-          - name: "{{ jenkins_network }}"
+        # networks:
+        #   - name: "{{ jenkins_network }}"
         command: sleep infinity
       register: ansible_container
       tags: start_ansible

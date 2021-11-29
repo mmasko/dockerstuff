@@ -1,5 +1,5 @@
 #!/bin/bash
-RUNNER_SCOPE=""
+RUNNER_SCOPE="org"
 ORG_NAME=""
 REPO_URL=""
 ACCESS_TOKEN=""
