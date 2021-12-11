@@ -1,6 +1,6 @@
 #!/bin/bash
-RUNNER_SCOPE="org"
-ORG_NAME=""
+RUNNER_SCOPE="*"
+# ORG_NAME=""
 REPO_URL=""
 ACCESS_TOKEN=""
 _GITHUB_HOST=${GITHUB_HOST:="github.com"}

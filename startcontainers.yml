@@ -4,8 +4,8 @@
   vars:
     jenkins_network: jenkins_network
     ansible_python_interpreter: /usr/bin/python3
-    
-  
+
+
   tasks:
 
     # - name: container runs me
@@ -50,7 +50,7 @@
     #     remove: no
     #   become: yes
     #   tags: jenkins_dir
-      
+
     # - name: create Jenkins_home directory
     #   file: 
     #     path: /opt/jenkins_home
@@ -90,17 +90,28 @@
     #       - name: "{{ jenkins_network }}"
     #   tags: start_jenkins
 
+    - name: set dir perms
+      file: 
+        path: /opt/vra_container
+        owner: ec2-user
+        group: ec2-user
+        state: directory
+        recurse: true
+      become: true
+
     - name: ansible container
       community.docker.docker_container:
-        name: docker_deployer
-        image: ansible_runner:latest
+        name: Myles_Test_VRA
+        image: vra_test_container:latest
         volumes:
-          # - /home/ec2-user/dockervolume/python_packages:/usr/local/lib/python3.9/site-packages
-          - /var/run/docker.sock:/var/run/docker.sock
+        #   # - /home/ec2-user/dockervolume/python_packages:/usr/local/lib/python3.9/site-packages
+        #   - /var/run/docker.sock:/var/run/docker.sock
+          - /opt/vra_container:/home/ansibleoss/var
         state: started
-        #restart_policy: unless-stopped
+        ports:
+          - "0.0.0.0:2435:22"
+        restart_policy: unless-stopped
         # networks:
         #   - name: "{{ jenkins_network }}"
-        command: sleep infinity
       register: ansible_container
       tags: start_ansible
