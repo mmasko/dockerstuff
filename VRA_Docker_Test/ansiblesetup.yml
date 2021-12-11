@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+  tasks:
+
+    # - name: Create .ansible dir
+    #   file: 
+    #     path: /home/ansibleoss/.ansible
+    #     owner: ansibleoss
+    #     group: ansibleoss
+    #     state: directory
+    #     recurse: true
+
+    - name: Create .ansible.cfg file
+      copy:
+        dest: /home/ansibleoss/.ansible.cfg
+        content: |
+          [defaults]
+          ansible_python_interpreter = /usr/bin/python3
+          gather_timeout = 15
+          host_key_checking = False
+          log_path = /home/ansibleoss/.ansible/ansible.log
+          roles_path = /etc/ansible/roles:/usr/share/ansible/roles:~/linux/ansible/roles
+          stdout_callback = yaml
+          timeout = 70
+          vault_password_file = /home/ansibleoss/ansible-vault-password.txt
+          #verbosity = 3
+          # VRA needs verbosity=0 for successful decoms.  Specifying in the playbook doesn't work.
+          verbosity = 0
+
+          [persistent_connection]
+          command_timeout = 20
+
+    - name: Create vault password file
+      copy:
+        dest: /home/ansibleoss/ansible-vault-password.txt
+        content:
+          # VRA requires this file exists and there be content in it. Do not delete
+          dont_delete_this
+
+    - name: Install pip packages
+      pip:
+        name:
+          - pip
+          - virtualenv
+          - setuptools
+        extra_args: --user

@@ -7,4 +7,3 @@ RUN apk add --update --no-cache --virtual .fetch-deps \
         curl
 RUN adduser ansible -D
 USER ansible
-
