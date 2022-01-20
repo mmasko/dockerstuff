@@ -3,6 +3,7 @@ ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ans
 
 RUN yum update -y
 # RUN mkdir /var/run/sshd
+# TODO modify user:password to be passed arguements
 RUN yum -y install openssh-server ed openssh-clients ed python3 ed python3-pip && yum clean all \
   && sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
   && echo "root:root" | chpasswd \
@@ -15,6 +16,7 @@ RUN yum -y install openssh-server ed openssh-clients ed python3 ed python3-pip &
   && /usr/bin/ssh-keygen -A \
   && ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_key
 
+# TODO modify user:password to be passed arguements
 RUN adduser ansibleoss && echo "ansibleoss:ansibleoss" | chpasswd
 
 USER ansibleoss
